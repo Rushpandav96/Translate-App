@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    div {
+      border: 2px solid black;
+      height: 300px;
+    }
+
+    #container {
+      background-color: black;
+      display: flex;
+      height: 600px;
+    }
+
+    #input-section {
+      font-size: 40px;
+      flex: 1px;
+      margin: 5%;
+      background-color:white;
+    }
+
+    #output-section {
+      flex: 1px;
+      margin: 5%;
+      background-color: darkkhaki;
+    }
+
+    #input-text {
+      width: 100%;
+      height: 80%;
+      background-color: hotpink;
+    }
+    #translate-btn{
+      font-size: 20px;
+      background-color: black;
+      color: white;
+      cursor: pointer;
+      border: transparent;
+      border-radius: 10px;
+    }
+    #input-text{
+      font-size: 25px;
+    }
+    #output-section{
+        font-size: 25px;
+    }
+  </style>
+</head>
+
+<style></style>
+
+<body>
+  <div id="container">
+    <div id="input-section">
+      <h4>Input Section</h4>
+      <!--Create button that will run translate text function, give id "translate-btn"-->
+      <button id="translate-btn" onclick="translateText()">Translate</button>
+      <!--Create input that will accept text to be translated, give id "input-text"-->
+      <textarea id="input-text"></textarea>
+    </div>
+    <div id="output-section">
+      <p id="translated-text">
+        <!--Show translated text here-->
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script>
+
+  async function translateText() {
+    try {
+      let input = document.getElementById("input-text").value;
+
+      let res = await fetch("https://libretranslate.de/translate", {
+        method: "POST",
+
+        body: JSON.stringify({
+          q: input,
+          source: "en",
+          target: "hi",
+          format: "text",
+        }),
+
+        headers: {
+          "Content-Type": "application/json",
+          // "Content-Type": "application/x-ww-form-urlencoded",
+        },
+      });
+
+      let data = await res.json();
+      // console.log("data:", data);
+      document.getElementById("translated-text").innerText=data.translatedText;
+
+    }
+    catch (err) {
+      console.log("err:", err);
+    }
+  }
+</script>
